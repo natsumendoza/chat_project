@@ -13,7 +13,7 @@
 		var id = $("#ids").val();
 		
 		setInterval(function(){
-			console.log(getLatestMessage(new Date(), $("#ids").val()));
+			//console.log(getLatestMessage(new Date(), $("#ids").val()));
 			//alert(getLatestMessage(new Date(), $("#ids").val()));
 		},1000);
 		
