@@ -71,7 +71,12 @@
 				var options = "";
 				$.each(data, function(idx, datares){
 					//options += "<option>" + datares.username + "</option>";
-					$("#to").append("<option>" + datares.username + "</option>");
+					if(isOnline(datares.username)){
+						$("#to").append("<option>" + datares.username + " - online" + "</option>");
+					}
+					else{
+						$("#to").append("<option>" + datares.username + "</option>");
+					}
 					console.log(datares.username);
 				});
 				//$("#to").html(options);
@@ -135,7 +140,6 @@
 				if(message !== null){
 					$("#messageRe").append(message + "\n");
 				}
-				
 			},
 			error: function(error){
 				console.log("error: " + error);
@@ -143,6 +147,38 @@
 		});
 		return message;
 	}
+	
+	function isOnline(username){
+		
+		var jsonData = "{\"username\":\""+username+"\"}";
+		
+		console.log(jsonData);
+		
+		var isOnline = false;
+		
+		$.ajax({
+			url: '/chat_project/webapi/controller/isOnline',
+			type: 'POST',
+			dataType: 'json',
+			data: jsonData,
+			async: false,
+			cache: false,
+			contentType: 'application/json',
+			mimeType: 'application/json',
+			success: function(data){
+				if(data.isOnline == true){
+					isOnline = true;
+				}
+				console.log(data.isOnline);
+			},
+			error: function(error){
+				console.log("error: " + error);
+			}
+		});
+		
+		return isOnline;
+	}
+	
 </script>
 </head>
 <body>
@@ -169,6 +205,8 @@
 				<input class="btn btn-primary pull-right" type="submit" value="send" id="send" style="margin-top: 10px"/>
 				
 				<input class="btn btn-success pull-right" type="submit" value="refresh" id="refresh" style="margin-top: 10px"/>
+				
+				<input class="btn btn-success pull-right" type="submit" value="logout" id="logout" style="margin-top: 10px"/>
 			</div>
 		</div>
 	</div>

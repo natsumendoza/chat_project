@@ -9,6 +9,7 @@ public class Accounts {
 	private String username;
 	private String password;
 	private String message;
+	private boolean isOnline;
 	
 	public String getMessage() {
 		return message;
@@ -18,6 +19,12 @@ public class Accounts {
 	}
 	public long getId() {
 		return id;
+	}
+	public boolean getIsOnline() {
+		return isOnline;
+	}
+	public void setIsOnline(boolean isOnline) {
+		this.isOnline = isOnline;
 	}
 	public void setId(long id) {
 		this.id = id;

@@ -30,6 +30,7 @@
 				mimeType: 'application/json',
 				success: function(data){
 					if(data.message == "Login Success"){
+						setOnline(username);
 						var url = "chatHome.jsp?user="+data.username;
 						$(location).attr("href", url);
 						console.log(data);
@@ -42,12 +43,35 @@
 					console.log("error: " + error);
 				}
 			});
-			
-			
-			
+		
 		});
 		
 	});
+	
+	function setOnline(username){
+		
+		var jsonData = "{\"username\":\""+username+"\"}";
+		
+		$.ajax({
+			url: '/chat_project/webapi/controller/setOnline',
+			type: 'POST',
+			dataType: 'json',
+			data: jsonData,
+			async: false,
+			cache: false,
+			contentType: 'application/json',
+			mimeType: 'application/json',
+			success: function(data){
+				console.log("inserted to online!");
+			},
+			error: function(error){
+				console.log("error: " + error);
+			}
+		});
+		
+	}
+	
+	
 
 </script>
 </head>

@@ -71,6 +71,36 @@ public class Database {
 		return message;
 	}
 	
+	public static boolean isOnline(String username) throws Exception{
+		
+		connect();
+		
+		String sql = "select count(*) as count from online_user where username=?";
+		
+		boolean isOnline = false;
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		stmt.setString(1, username);
+		
+		ResultSet rs = stmt.executeQuery();
+		
+		int count = 0;
+		
+		if(rs.next()){
+			count = rs.getInt("count");
+		}
+		
+		if(count != 0){
+			isOnline = true;
+		}
+		System.out.println("online count " + count);
+		
+		close();
+		
+		return isOnline;
+	}
+	
 	public static void insert(String message, long sender_id, long receiver_id) throws Exception{
 		connect();
 		
@@ -85,6 +115,10 @@ public class Database {
 		stmt.setString(5, new SimpleDateFormat("h:mm:ss a").format(new Date()));
 		
 		stmt.executeUpdate();
+		
+		System.out.println("message: " + message + ", sender_id: " + sender_id + ", receiver_id: " + receiver_id + ","
+							+ " date_received: " + new SimpleDateFormat("MM-dd-yyyy").format(new Date()) + ","
+								+ " time_received: " + new SimpleDateFormat("h:mm:ss a").format(new Date()));
 		
 		close();
 	}
@@ -157,6 +191,20 @@ public class Database {
 		
 		close();
 		return message;
+	}
+	
+	public static void setOnline(String username) throws Exception{
+		connect();
+		
+		String sql = "insert into online_user (username) values (?)";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		stmt.setString(1, username);
+		
+		stmt.executeUpdate();
+		
+		close();
 	}
 	
 	public static long getId(String username) throws Exception{

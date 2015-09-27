@@ -30,11 +30,9 @@ public class Controller {
 	
 	@POST
 	@Path("/send")
-	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Messages send(Messages message){
+	public void send(Messages message){
 		service.sendMessage(message.getMessage(), message.getFrom(), message.getTo());
-		return message;
 	}
 	
 	@POST
@@ -59,6 +57,21 @@ public class Controller {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Accounts> getReceiver(){
 		return service.getReceiverService();
+	}
+	
+	@POST
+	@Path("/setOnline")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void setOnline(Accounts account){
+		service.setOnlineService(account.getUsername());
+	}
+	
+	@POST
+	@Path("/isOnline")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Accounts isOnline(Accounts account){
+		return service.isOnlineService(account.getUsername());
 	}
 	
 }

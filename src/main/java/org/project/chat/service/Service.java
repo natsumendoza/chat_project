@@ -1,9 +1,6 @@
 package org.project.chat.service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.project.chat.database.Database;
@@ -67,6 +64,31 @@ public class Service {
 		
 		try {
 			account = Database.getReceiver();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return account;
+		
+	}
+	
+	public void setOnlineService(String username){
+		try {
+			Database.setOnline(username);
+			System.out.println("inserted to online!");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public Accounts isOnlineService(String username){
+		Accounts account = new Accounts();
+		
+		try {
+			account.setIsOnline(Database.isOnline(username));
+			System.out.println(account.getIsOnline() + " is");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
