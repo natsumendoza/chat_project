@@ -54,4 +54,11 @@ public class Controller {
 		return service.getLatestMessage(message.getTimeReceived(), message.getFrom());
 	}
 	
+	@GET
+	@Path("/getReceiver")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Accounts> getReceiver(){
+		return service.getReceiverService();
+	}
+	
 }

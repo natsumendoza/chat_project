@@ -12,6 +12,8 @@
 	$(document).ready(function() {
 		var id = $("#ids").val();
 		
+		getReceiver();
+		
 		setInterval(function(){
 			//console.log(getLatestMessage(new Date(), $("#ids").val()));
 			//alert(getLatestMessage(new Date(), $("#ids").val()));
@@ -54,6 +56,32 @@
 			$(location).attr("href", url);
 		});
 	});
+	
+	function getReceiver(){
+		
+		$.ajax({
+			url: '/chat_project/webapi/controller/getReceiver',
+			type: 'GET',
+			dataType: 'json',
+			async: false,
+			cache: false,
+			contentType: 'application/json',
+			mimeType: 'application/json',
+			success: function(data){
+				var options = "";
+				$.each(data, function(idx, datares){
+					//options += "<option>" + datares.username + "</option>";
+					$("#to").append("<option>" + datares.username + "</option>");
+					console.log(datares.username);
+				});
+				//$("#to").html(options);
+			},
+			error: function(error){
+				console.log("error: " + error);
+			}
+		});
+		
+	}
 	
 	function getMessage(from){
 		var jsonData = "{\"from\":\""+from+"\"}";
@@ -127,17 +155,20 @@
 				<h3>Chat Message:</h3>
 				<div id="chat"><textarea class="form-control" rows="5" cols="20" id="messageRe" readonly></textarea></div>
 				<h3>To:</h3>
-				<input class="form-control" type="text" id="to" />
+				<!--  <input class="form-control" type="text" id="to" /> -->
+				<select class="form-control" id="to">
+					
+				</select>
 				
 				<h3>From:</h3>
-				<input class="form-control" type="text" id="from" value="<%= request.getParameter("user") %>" />
+				<input class="form-control" type="text" id="from" value="<%= request.getParameter("user") %>" readonly />
 				
 				<h3>Message:</h3>
 				<input class="form-control" type="text" id="message" />
 				
-				<input class="btn btn-primary pull-right" type="submit" value="send" id="send" />
+				<input class="btn btn-primary pull-right" type="submit" value="send" id="send" style="margin-top: 10px"/>
 				
-				<input class="btn btn-success pull-right" type="submit" value="refresh" id="refresh" />
+				<input class="btn btn-success pull-right" type="submit" value="refresh" id="refresh" style="margin-top: 10px"/>
 			</div>
 		</div>
 	</div>

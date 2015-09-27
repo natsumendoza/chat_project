@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.project.chat.database.Database;
+import org.project.chat.models.Accounts;
 import org.project.chat.models.Messages;
 
 public class Service {
@@ -58,6 +59,21 @@ public class Service {
 		System.out.println("message: " + message.getMessage() + " message");
 		
 		return message;
+	}
+	
+	public List<Accounts> getReceiverService(){
+		
+		List<Accounts> account = new ArrayList<Accounts>();
+		
+		try {
+			account = Database.getReceiver();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return account;
+		
 	}
 	
 	/*private String toJson(Object object) throws Exception{

@@ -4,12 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.project.chat.models.Accounts;
 import org.project.chat.models.Messages;
 
 public class Database {
@@ -111,6 +111,30 @@ public class Database {
 		close();
 		
 		return messages;
+	}
+	
+	public static List<Accounts> getReceiver() throws Exception{
+		
+		connect();
+		
+		List<Accounts> accounts = new ArrayList<Accounts>();
+		
+		
+		String sql = "select username as username from users";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		ResultSet rs = stmt.executeQuery();
+		
+		while(rs.next()){
+			Accounts account = new Accounts();
+			account.setUsername(rs.getString("username"));
+			accounts.add(account);
+		}
+		
+		close();
+		
+		return accounts;
 	}
 	
 	public static String getLatestMessage(String time_received, long receiver_id) throws Exception{
