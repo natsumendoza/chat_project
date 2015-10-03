@@ -98,6 +98,19 @@ public class Service {
 		
 	}
 	
+	public Accounts logoutService(String username){
+		
+		Accounts account = new Accounts();
+		
+		try {
+			Database.logout(username);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return account;
+	}
+	
 	/*private String toJson(Object object) throws Exception{
 		ObjectMapper mapper = new ObjectMapper();
 		

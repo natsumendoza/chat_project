@@ -207,6 +207,20 @@ public class Database {
 		close();
 	}
 	
+	public static void logout(String username) throws Exception {
+		connect();
+		
+		String sql = "delete from online_user where username=?";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		
+		stmt.setString(1, username);
+		
+		stmt.executeUpdate();
+		
+		close();
+	}
+	
 	public static long getId(String username) throws Exception{
 		long id = 0;
 		

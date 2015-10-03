@@ -74,4 +74,12 @@ public class Controller {
 		return service.isOnlineService(account.getUsername());
 	}
 	
+	@POST
+	@Path("/logout")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Accounts logout(Accounts account){
+		return service.logoutService(account.getUsername());
+	}
+	
 }

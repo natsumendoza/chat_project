@@ -17,6 +17,7 @@
 		setInterval(function(){
 			//console.log(getLatestMessage(new Date(), $("#ids").val()));
 			//alert(getLatestMessage(new Date(), $("#ids").val()));
+			
 		},1000);
 		
 		getMessage($("#ids").val());
@@ -55,6 +56,13 @@
 			var url = "chatHome.jsp?user="+id;
 			$(location).attr("href", url);
 		});
+		
+		$("#logout").on('click', function(){
+			logout(id);
+			var url = "index.jsp";
+			$(location).attr("href", url);
+		});
+		
 	});
 	
 	function getReceiver(){
@@ -72,14 +80,16 @@
 				$.each(data, function(idx, datares){
 					//options += "<option>" + datares.username + "</option>";
 					if(isOnline(datares.username)){
-						$("#to").append("<option>" + datares.username + " - online" + "</option>");
+						//$("#to").append("<option>" + datares.username + " - online" + "</option>");
+						options += "<option>" + datares.username + " - online</option>";
 					}
 					else{
-						$("#to").append("<option>" + datares.username + "</option>");
+						//$("#to").append("<option>" + datares.username + "</option>");
+						options += "<option>" + datares.username + "</option>";
 					}
 					console.log(datares.username);
 				});
-				//$("#to").html(options);
+				$("#to").html(options);
 			},
 			error: function(error){
 				console.log("error: " + error);
@@ -177,6 +187,31 @@
 		});
 		
 		return isOnline;
+	}
+	
+	function logout(username){
+		var jsonData = "{\"username\":\""+username+"\"}";
+		
+		console.log(jsonData);
+		
+		var isOnline = false;
+		
+		$.ajax({
+			url: '/chat_project/webapi/controller/logout',
+			type: 'POST',
+			dataType: 'json',
+			data: jsonData,
+			async: false,
+			cache: false,
+			contentType: 'application/json',
+			mimeType: 'application/json',
+			success: function(data){
+				console.log("successfully logged out!");
+			},
+			error: function(error){
+				console.log("error: " + error);
+			}
+		});
 	}
 	
 </script>
